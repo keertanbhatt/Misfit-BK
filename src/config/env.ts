@@ -28,7 +28,14 @@ export const env = {
   ),
   jwtAccessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN ?? "15m",
   jwtRefreshExpiresIn: process.env.JWT_REFRESH_EXPIRES_IN ?? "7d",
-  corsOrigin: process.env.CORS_ORIGIN ?? "http://localhost:5173",
+  /**
+   * Comma-separated allowed frontend origins, e.g.
+   * http://localhost:5173,https://yourdomain.com,https://www.yourdomain.com
+   */
+  corsOrigins: (process.env.CORS_ORIGIN ?? "http://localhost:5173")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean),
   clientUrl: process.env.CLIENT_URL ?? "http://localhost:5173",
   cloudinary: {
     cloudName: process.env.CLOUDINARY_CLOUD_NAME ?? "",

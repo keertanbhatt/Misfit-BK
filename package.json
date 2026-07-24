@@ -4,23 +4,6 @@
   "private": true,
   "description": "Misfit API — Express + Prisma + Neon PostgreSQL",
   "main": "dist/server.js",
-  "scripts": {
-    "dev": "tsx watch src/server.ts",
-    "build": "tsc -p tsconfig.json",
-    "start": "node dist/src/server.js",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "prisma:generate": "dotenv -e ../.env -- prisma generate",
-    "prisma:validate": "dotenv -e ../.env -- prisma validate",
-    "prisma:format": "prisma format",
-    "prisma:migrate": "dotenv -e ../.env -- prisma migrate dev",
-    "prisma:deploy": "dotenv -e ../.env -- prisma migrate deploy",
-    "prisma:studio": "dotenv -e ../.env -- prisma studio",
-    "prisma:seed": "dotenv -e ../.env -- prisma db seed",
-    "db:push": "dotenv -e ../.env -- prisma db push"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
-  },
   "dependencies": {
     "@prisma/client": "^6.9.0",
     "bcrypt": "^5.1.1",
@@ -35,6 +18,8 @@
     "morgan": "^1.10.0",
     "multer": "^2.0.1",
     "nodemailer": "^7.0.3",
+    "prisma": "^6.9.0",
+    "typescript": "^5.8.3",
     "zod": "^3.25.28"
   },
   "devDependencies": {
@@ -48,9 +33,25 @@
     "@types/node": "^22.15.21",
     "@types/nodemailer": "^6.4.17",
     "dotenv-cli": "^8.0.0",
-    "prisma": "^6.9.0",
-    "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
+    "tsx": "^4.19.4"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "prisma generate && tsc -p tsconfig.json",
+    "start": "node dist/src/server.js",
+    "start:migrate": "prisma migrate deploy && node dist/src/server.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "prisma:generate": "prisma generate",
+    "prisma:validate": "prisma validate",
+    "prisma:format": "prisma format",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "prisma:studio": "prisma studio",
+    "prisma:seed": "tsx prisma/seed.ts",
+    "db:push": "prisma db push"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "engines": {
     "node": ">=20"

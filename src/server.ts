@@ -26,6 +26,18 @@ async function bootstrap() {
     console.log(`   Health: http://localhost:${env.port}/api/v1/health`);
   });
 
+  server.on("error", (error: NodeJS.ErrnoException) => {
+    if (error.code === "EADDRINUSE") {
+      console.error(
+        `❌ Port ${env.port} is already in use.\n` +
+          `   Free it with: kill $(lsof -t -iTCP:${env.port} -sTCP:LISTEN)\n` +
+          `   Or set PORT=4001 in .env and restart.`
+      );
+      process.exit(1);
+    }
+    throw error;
+  });
+
   const shutdown = async (signal: string) => {
     console.log(`\n${signal} received — shutting down gracefully…`);
     server.close(async () => {

@@ -21,7 +21,14 @@ export function createApp() {
 
   app.use(
     cors({
-      origin: env.corsOrigin,
+      origin(origin, callback) {
+        // Allow non-browser tools (no Origin header) and listed frontends
+        if (!origin || env.corsOrigins.includes(origin)) {
+          callback(null, true);
+          return;
+        }
+        callback(new Error(`CORS blocked for origin: ${origin}`));
+      },
       credentials: true,
     })
   );
