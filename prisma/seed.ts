@@ -3,7 +3,7 @@ import {
   RoleName,
   AvailabilityStatus,
 } from "@prisma/client";
-import * as bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 /**
  * Seed Misfit baseline data for Neon PostgreSQL.
